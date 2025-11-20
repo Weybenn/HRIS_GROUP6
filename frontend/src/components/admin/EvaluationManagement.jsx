@@ -1,0 +1,182 @@
+import { useState, useEffect } from 'react';
+import { ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+
+const FONT = 'Poppins, sans-serif';
+const TEXT_COLOR = '#6D2323';
+
+export default function EvaluationManagement() {
+  const navigate = useNavigate();
+  const [trainingPrograms, setTrainingPrograms] = useState([]);
+  const [setHoveredIdx] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchTrainingPrograms();
+  }, []);
+
+  const fetchTrainingPrograms = async () => {
+    try {
+      console.log('Fetching training programs...');
+      const response = await fetch('http://localhost:5000/api/evaluation/evaluation-management/training-programs');
+      console.log('Response status:', response.status);
+      
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Received data:', data);
+        console.log('Number of programs:', data.length);
+        
+        const filtered = (Array.isArray(data) ? data : []).filter((p) => {
+          const v = p?.register_link;
+          if (v === undefined || v === null) return false;
+          if (typeof v === 'number') return Number(v) === 1;
+          if (typeof v === 'boolean') return v === true;
+          return String(v).trim() === '1' || String(v).trim().toLowerCase() === 'true';
+        });
+
+        filtered.sort((a, b) => {
+          const ta = a?.date ? new Date(a.date).getTime() : Infinity;
+          const tb = b?.date ? new Date(b.date).getTime() : Infinity;
+          return ta - tb;
+        });
+        setTrainingPrograms(filtered);
+      } else {
+        const errorText = await response.text();
+        console.error('Failed to fetch training programs:', response.status, errorText);
+      }
+    } catch (error) {
+      console.error('Error fetching training programs:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleProgramClick = (program) => {
+    navigate('/dashboard_admin/evaluation-analytics', { 
+      state: { selectedProgram: program } 
+    });
+  };
+
+  const handleBackClick = () => {
+    navigate('/dashboard_admin/data');
+  };
+
+  if (loading) {
+    return (
+      <div style={{ fontFamily: FONT, minHeight: '100vh', padding: '0 2rem 2rem 2rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ fontSize: 18, color: '#666' }}>Loading training programs...</div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ fontFamily: FONT, minHeight: '100vh', padding: '0 2rem 2rem 2rem' }}>
+      {/* Header */}
+      <div style={{ marginBottom: 32 }}>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: 24 }}>
+          <button
+            onClick={handleBackClick}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', marginRight: 16 }}
+            aria-label="Back to data"
+          >
+            <ArrowLeft color="#6D2323" size={32} />
+          </button>
+          <h1 style={{ color: '#6D2323', fontWeight: 700, fontSize: 32, margin: 0 }}>Evaluation Management</h1>
+        </div>
+         <p
+           style={{
+             color: '#666',
+             fontSize: 18,
+             margin: 0,
+             fontFamily: FONT,
+             maxWidth: 1220,
+           }}
+         >
+           View and analyze evaluation feedback from all training programs through interactive charts and summaries for better decision-making.
+         </p>
+      </div>
+
+      {/* Training Programs List */}
+      <div>
+        {trainingPrograms.length === 0 ? (
+           <div style={{ 
+             textAlign: 'center', 
+             color: '#666', 
+             fontSize: 18,
+             padding: '40px 0'
+           }}>
+             No training programs with registration links available for evaluation analysis.
+           </div>
+        ) : (
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+            gap: '24px'
+          }}>
+            {trainingPrograms.map((program, idx) => {
+              return (
+                <div
+                  key={program.id}
+                  style={{
+                    backgroundColor: 'white',
+                    borderRadius: '12px',
+                    padding: '24px',
+                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                    border: '1px solid #e5e5e5',
+                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    cursor: 'pointer'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 8px 15px rgba(0, 0, 0, 0.15)';
+                    setHoveredIdx(idx);
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+                    setHoveredIdx(null);
+                  }}
+                  onClick={() => handleProgramClick(program)}
+                >
+                  {/* Photo (if exists) */}
+                  <div style={{ marginBottom: '16px' }}>
+                    <img
+                      src={program.upload_photo ? `http://localhost:5000/uploads/${program.upload_photo}` : `http://localhost:5000/uploads/program/blank_image.png`}
+                      alt="Program"
+                      style={{ width: '100%', height: 220, objectFit: 'cover', borderRadius: 8, border: '1px solid #eee' }}
+                    />
+                  </div>
+
+                  {/* Program Name */}
+                  <h3 style={{
+                    color: TEXT_COLOR,
+                    fontSize: '20px',
+                    fontWeight: '600',
+                    margin: '0 0 8px 0',
+                    fontFamily: FONT
+                  }}>
+                    {program.program_name}
+                  </h3>
+                  
+                  {/* Program Date */}
+                  <p style={{
+                    color: '#666',
+                    fontSize: '14px',
+                    margin: '0 0 8px 0',
+                    fontFamily: FONT
+                  }}>
+                    {new Date(program.date).toLocaleDateString('en-US', { 
+                      year: 'numeric', 
+                      month: 'long', 
+                      day: 'numeric' 
+                    })}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,443 @@
+body, .app-bg {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  position: relative;
+  background: none;
+}
+
+.background-cover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  opacity: 0.25;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.header {
+  width: 100vw;
+  background: #6D2323;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 2rem;
+  position: relative;
+  z-index: 200;
+  min-height: 70px;
+}
+
+/* Sidebar scrolling styles - used by both HomeAdmin and HomeEmployee */
+.right-sidebar-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.right-sidebar-scroll::-webkit-scrollbar-button {
+  display: none;
+}
+
+.right-sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.right-sidebar-scroll::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 3px;
+  transition: background 0.2s ease;
+}
+
+.right-sidebar-scroll:hover::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.12);
+}
+
+.right-sidebar-scroll {
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.2s ease;
+}
+
+.right-sidebar-scroll:hover {
+  scrollbar-color: rgba(0,0,0,0.12) transparent;
+}
+
+.header-logo {
+  height: 45px;
+  margin-right: 18px;
+  flex-shrink: 0;
+}
+
+.header-title {
+  color: #FEF9E1;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.footer {
+  width: 100vw;
+  background: #6D2323;
+  color: #FEF9E1;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  padding: 16px 0 8px 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+}
+
+.main-content {
+  min-height: calc(100vh - 140px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+}
+
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100vw;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.login-box {
+  background: #fff;
+  border-radius: 50px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  padding: 40px 32px 16px 32px;
+  min-width: 400px;
+  max-width: 420px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  border: 2px solid #2221;
+  z-index: 2;
+  padding-bottom: 110px !important;
+  overflow: hidden;
+  min-height: 520px;
+  margin: auto;
+}
+
+.login-title {
+  color: #6D2323;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.login-input {
+  background: #FEF9E1;
+  border: 1.5px solid #2221;
+  border-radius: 32px;
+  padding: 14px 24px;
+  font-size: 20px;
+  font-weight: 500;
+  color: #6D2323;
+  outline: none;
+  margin-bottom: 0;
+  font-family: 'Poppins', sans-serif;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.forgot-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+
+.forgot-link {
+  color: #6D2323;
+  font-size: 16px;
+  font-weight: 500;
+  font-style: italic;
+  text-decoration: underline;
+  transition: color 0.2s;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.forgot-link:hover {
+  color: #A31D1D;
+}
+
+.login-btn {
+  background: #6D2323;
+  color: #FEF9E1;
+  font-size: 20px;
+  font-weight: 600;
+  border: none;
+  border-radius: 32px;
+  padding: 12px 0;
+  margin-top: 8px;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.2s;
+  font-family: 'Poppins', sans-serif;
+}
+
+.login-btn:hover {
+  background: #A31D1D;
+}
+
+.login-image {
+  width: 90%;
+  max-width: 320px;
+  margin: 24px auto 0 auto;
+  display: block;
+}
+
+.login-box-bordered {
+  border: 2px solid #000 !important;
+}
+
+.login-input-bordered {
+  border: 1px solid #000 !important;
+  color: #6D2323 !important;
+}
+
+.login-image-stretch {
+  width: 100% !important;
+  max-width: 100% !important;
+  border-radius: 0 0 50px 50px !important;
+  margin: 0 !important;
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Extra Large screens (Full HD and above) */
+@media (min-width: 1920px) {
+  .header-title {
+    font-size: 26px;
+  }
+  .login-box {
+    max-width: 480px;
+    padding: 50px 40px 20px 40px;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1200px) {
+  .main-content {
+    padding: 3rem 2rem;
+  }
+  .login-container {
+    padding: 2rem;
+  }
+}
+
+/* Medium screens (Reference: 1440x900 NVision N190HD) */
+@media (max-width: 1199px) and (min-width: 1024px) {
+  .main-content {
+    padding: 1.5rem 1rem;
+  }
+  .login-container {
+    padding: 1rem;
+  }
+  .login-box {
+    min-width: 380px;
+    max-width: 400px;
+  }
+  .header-title {
+    font-size: 22px;
+  }
+}
+
+/* Small screens and tablets */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .main-content {
+    padding: 1rem 0.5rem;
+  }
+  .login-container {
+    padding: 0.5rem;
+  }
+  .login-box {
+    min-width: 350px;
+    max-width: 380px;
+    padding: 32px 24px 16px 24px;
+  }
+  .header-title {
+    font-size: 18px;
+  }
+  .header-logo {
+    height: 48px;
+    margin-right: 12px;
+  }
+}
+
+/* Mobile devices */
+@media (max-width: 767px) {
+  .main-content {
+    padding: 1rem 0.5rem;
+  }
+  .login-container {
+    padding: 0.5rem;
+  }
+  .login-box {
+    min-width: 90vw;
+    max-width: 95vw;
+    padding: 24px 16px 16px 16px;
+    min-height: 480px;
+  }
+  .header {
+    padding: 0.5rem 1rem;
+  }
+  .header-title {
+    font-size: 14px;
+    white-space: normal;
+    line-height: 1.2;
+  }
+  .header-logo {
+    height: 40px;
+    margin-right: 8px;
+  }
+  .login-title {
+    font-size: 20px;
+    margin-bottom: 24px;
+  }
+  .login-input {
+    font-size: 18px;
+    padding: 12px 20px;
+  }
+  .login-btn {
+    font-size: 18px;
+    padding: 10px 0;
+  }
+  .footer {
+    font-size: 14px;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+  .main-content {
+    padding: 0.5rem 0.25rem;
+  }
+  .login-container {
+    padding: 0.25rem;
+  }
+  .login-box {
+    min-width: 95vw;
+    max-width: 98vw;
+    padding: 20px 12px 12px 12px;
+    min-height: 450px;
+  }
+  .header {
+    padding: 0.5rem 0.75rem;
+  }
+  .header-title {
+    font-size: 12px;
+  }
+  .header-logo {
+    height: 36px;
+    margin-right: 6px;
+  }
+  .login-title {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  .login-input {
+    font-size: 16px;
+    padding: 10px 16px;
+  }
+  .login-btn {
+    font-size: 16px;
+    padding: 8px 0;
+  }
+  .footer {
+    font-size: 12px;
+    padding: 12px 0 6px 0;
+  }
+}
+
+/* Ultra small screens */
+@media (max-width: 360px) {
+  .header-title {
+    font-size: 10px;
+  }
+  .header-logo {
+    height: 32px;
+  }
+  .login-box {
+    min-width: 98vw;
+    padding: 16px 8px 8px 8px;
+  }
+}
+
+.password-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.password-input {
+  width: 100%;
+  padding-right: 44px;
+  box-sizing: border-box;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #6D2323;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+}
+
+/* Responsive utilities for dashboard components */
+.dashboard-container {
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+.dashboard-content {
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .dashboard-content {
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-content {
+    padding: 0.25rem;
+  }
+}
