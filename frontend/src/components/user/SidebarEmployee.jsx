@@ -197,7 +197,6 @@ export default function SidebarEmployee({ expanded, setExpanded, headerHeight = 
       {/* Menu Items */}
       {menuItems.map((item, idx) => {
         const isActive = location.pathname === item.path || (item.label === 'Home' && location.pathname === '/dashboard_employee');
-        let borderRadius = expanded ? '0 28px 28px 0' : '50%';
         const isNotification = item.label === 'Notification';
         
         return (
@@ -205,25 +204,24 @@ export default function SidebarEmployee({ expanded, setExpanded, headerHeight = 
             key={item.label}
             onClick={() => handleNav(item.path, item.type)}
             style={{
-              display: 'grid',
-              gridTemplateColumns: expanded ? '28px auto' : '28px',
+              display: 'flex', // Changed from grid to flex
               alignItems: 'center',
+              justifyContent: expanded ? 'flex-start' : 'center', // Added this line
               width: expanded ? 230 : 56,
               height: 56,
               margin: '2px 0',
               background: isActive ? HIGHLIGHT_BG : 'none',
-              borderRadius,
+              borderRadius: expanded ? '0 28px 28px 0' : '50%',
               cursor: 'pointer',
               padding: expanded ? '0 16px 0 18px' : 0,
               color: isActive ? '#A31D1D' : '#FFFFFF',
               fontWeight: 500,
               fontSize: 15,
               fontFamily: FONT,
-              transition: 'background 0.2s, width 0.2s, grid-template-columns 0.2s, color 0.2s',
-              columnGap: expanded ? 12 : 0,
-              justifyContent: expanded ? 'initial' : 'center',
+              transition: 'background 0.2s, color 0.2s', // Simplified transition
               marginLeft: 0,
-              position: 'relative'
+              position: 'relative',
+              gap: expanded ? 12 : 0, // Changed from columnGap to gap
             }}
             onMouseEnter={(e) => {
               if (!isActive) {
@@ -265,7 +263,7 @@ export default function SidebarEmployee({ expanded, setExpanded, headerHeight = 
               )}
             </div>
             {expanded && (
-              <span style={{ whiteSpace: 'nowrap', position: 'relative' }}>
+              <span style={{ whiteSpace: 'nowrap' }}>
                 {item.label}
               </span>
             )}

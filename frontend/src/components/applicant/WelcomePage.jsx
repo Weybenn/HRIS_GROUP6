@@ -21,9 +21,14 @@ function WelcomePage() {
           onClick={() => navigate('/earist_main')}
           style={{ cursor: 'pointer' }}
         />
-        <span className="header-title header-title-invert">
-          Eulogio "Amang" Rodriguez Institute of Science and Technology
-        </span>
+        <div className="header-titles">
+          <span className="header-title header-title-invert">
+            Eulogio "Amang" Rodriguez Institute of Science and Technology
+          </span>
+          <span className="header-subtitle header-subtitle-invert">
+            Application and Recruitment System
+          </span>
+        </div>
       </div>
 
       <div className="welcome-wrap no-overflow-x">
@@ -58,5 +63,3 @@ function WelcomePage() {
 }
 
 export default WelcomePage;
-
-

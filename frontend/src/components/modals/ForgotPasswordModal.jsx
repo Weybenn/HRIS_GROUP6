@@ -90,9 +90,7 @@ export default function ForgotPasswordModal({ open, onClose }) {
   };
 
   if (showSuccessModal) {
-  return (
-    <>
-      <LoadingOverlay open={loading} message="Processing..." />
+    return (
       <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.25)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ background: '#fff', borderRadius: 25, boxShadow: '0 4px 32px rgba(0,0,0,0.18)', padding: '40px 32px', minWidth: 380, maxWidth: '95vw', fontFamily: FONT, position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: 18 }}>
@@ -286,7 +284,7 @@ export default function ForgotPasswordModal({ open, onClose }) {
               >
                 {loading ? 'Processing...' : 'Confirm'}
               </button>
-        </div>
+            </div>
           </>
         )}
       </div>

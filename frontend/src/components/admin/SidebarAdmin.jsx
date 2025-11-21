@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, Bell, ChartLine, Briefcase, Settings, LogOut, PieChart, Award, Lock, Unlock } from 'lucide-react'; // Added Lock and Unlock icons
+import { Home, Bell, ChartLine, Briefcase, Settings, LogOut, PieChart, Award, Lock, Unlock } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
@@ -39,7 +39,6 @@ export default function SidebarAdmin({ expanded, setExpanded, headerHeight = 70,
   useEffect(() => {
     loadNotificationCount();
 
-    // Listen for notification updates from the NotificationAdmin component
     const handleNotificationUpdate = (event) => {
       setNotificationCount(event.detail.count);
     };
@@ -53,10 +52,8 @@ export default function SidebarAdmin({ expanded, setExpanded, headerHeight = 70,
         const data = JSON.parse(event.data);
         
         if (data.type === 'new_notification') {
-          // Increment count for new notifications
           setNotificationCount(prev => prev + 1);
         } else if (data.type === 'notifications_updated') {
-          // Update count with unread notifications from server
           const unreadCount = data.data.filter(n => !n.read).length;
           setNotificationCount(unreadCount);
         }
@@ -95,12 +92,11 @@ export default function SidebarAdmin({ expanded, setExpanded, headerHeight = 70,
     navigate("/login", { replace: true });
   };
 
-  // New handler for toggling lock
   const handleToggleLock = () => {
     const newLockState = !manualExpand;
     setManualExpand(newLockState);
     if (newLockState) {
-      setExpanded(true); // Ensure sidebar is open when locked
+      setExpanded(true);
     }
   };
 
@@ -148,12 +144,7 @@ export default function SidebarAdmin({ expanded, setExpanded, headerHeight = 70,
             marginRight: expanded ? 12 : 0,
           }}
         >
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill={SIDEBAR_BG}
-          >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill={SIDEBAR_BG}>
             <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
           </svg>
         </div>
@@ -167,7 +158,6 @@ export default function SidebarAdmin({ expanded, setExpanded, headerHeight = 70,
             </span>
           </div>
         )}
-        {/* Lock/Unlock Icon - only visible when expanded */}
         {expanded && (
           <div
             onClick={handleToggleLock}
@@ -193,7 +183,6 @@ export default function SidebarAdmin({ expanded, setExpanded, headerHeight = 70,
       {/* Menu Items */}
       {menuItems.map((item, idx) => {
         const isActive = location.pathname === item.path || (item.label === 'Home' && location.pathname === '/dashboard_admin');
-        let borderRadius = expanded ? '0 28px 28px 0' : '50%';
         const isNotification = item.label === 'Notifications';
         
         return (
@@ -201,25 +190,24 @@ export default function SidebarAdmin({ expanded, setExpanded, headerHeight = 70,
             key={item.label}
             onClick={() => handleNav(item.path, item.type)}
             style={{
-              display: 'grid',
-              gridTemplateColumns: expanded ? '28px auto' : '28px',
+              display: 'flex',
               alignItems: 'center',
+              justifyContent: expanded ? 'flex-start' : 'center',
               width: expanded ? 230 : 56,
               height: 56,
               margin: '2px 0',
               background: isActive ? HIGHLIGHT_BG : 'none',
-              borderRadius,
+              borderRadius: expanded ? '0 28px 28px 0' : '50%',
               cursor: 'pointer',
               padding: expanded ? '0 16px 0 18px' : 0,
               color: isActive ? '#A31D1D' : '#FFFFFF',
               fontWeight: 500,
               fontSize: 15,
               fontFamily: FONT,
-              transition: 'background 0.2s, width 0.2s, grid-template-columns 0.2s, color 0.2s',
-              columnGap: expanded ? 12 : 0,
-              justifyContent: expanded ? 'initial' : 'center',
+              transition: 'background 0.2s, color 0.2s',
               marginLeft: 0,
-              position: 'relative'
+              position: 'relative',
+              gap: expanded ? 12 : 0,
             }}
             onMouseEnter={(e) => {
               if (!isActive) {
@@ -235,7 +223,6 @@ export default function SidebarAdmin({ expanded, setExpanded, headerHeight = 70,
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 28, position: 'relative' }}>
-              {/* Clone the icon and ensure it has the right color */}
               {React.cloneElement(item.icon, {
                 style: { transition: 'color 0.2s' }
               })}
@@ -261,7 +248,7 @@ export default function SidebarAdmin({ expanded, setExpanded, headerHeight = 70,
               )}
             </div>
             {expanded && (
-              <span style={{ whiteSpace: 'nowrap', position: 'relative' }}>
+              <span style={{ whiteSpace: 'nowrap' }}>
                 {item.label}
               </span>
             )}

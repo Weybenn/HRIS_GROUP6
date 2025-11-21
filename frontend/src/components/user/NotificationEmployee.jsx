@@ -15,7 +15,7 @@ export default function NotificationEmployee() {
   const [error, setError] = useState('');
   const [selectedNotification, setSelectedNotification] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [filter, setFilter] = useState('all'); // all, unread, important
+  const [filter, setFilter] = useState('all'); // all, unread
   const [selectedIds, setSelectedIds] = useState([]);
   const [selectionMode, setSelectionMode] = useState(false);
 
@@ -317,10 +317,6 @@ export default function NotificationEmployee() {
   const filteredNotifications = items.filter(notification => {
     if (filter === 'all') return true;
     if (filter === 'unread') return !notification.read || notification.read === 0;
-    if (filter === 'important') {
-      const type = getNotificationType(notification.message);
-      return type === 'warning' || type === 'error';
-    }
     return true;
   });
 
@@ -568,7 +564,7 @@ export default function NotificationEmployee() {
             display: 'flex',
             gap: '24px'
           }}>
-            {['all', 'unread', 'important'].map((tab) => (
+            {['all', 'unread'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setFilter(tab)}
@@ -588,10 +584,6 @@ export default function NotificationEmployee() {
               >
                 {tab === 'all' && `All (${items.length})`}
                 {tab === 'unread' && `Unread (${items.filter(n => !n.read || n.read === 0).length})`}
-                {tab === 'important' && `Important (${items.filter(n => {
-                  const type = getNotificationType(n.message);
-                  return type === 'warning' || type === 'error';
-                }).length})`}
               </button>
             ))}
           </div>
